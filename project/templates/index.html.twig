@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% if errorMessage is not empty %}
+        <div style="color: red; margin-bottom: 10px">{{ errorMessage }}</div>
+    {% elseif validationResults is not empty %}
+        <div style="margin-bottom: 10px">
+            <div style="margin-bottom: 10px; padding: 10px; border: 1px solid black">
+                {% if validationResults.correctAnswers is defined and validationResults.correctAnswers is not empty %}
+                    <div>Questions answered correctly</div>
+                    {% for correctAnswer in validationResults.correctAnswers %}
+                        <div>{{ correctAnswer }}</div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div style="padding: 10px; border: 1px solid black">
+                {% if validationResults.wrongAnswers is defined and validationResults.wrongAnswers is not empty %}
+                    <div>Questions answered wrongly</div>
+                    {% for wrongAnswer in validationResults.wrongAnswers %}
+                        <div>{{ wrongAnswer }}</div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+    <form method="post">
+        {% for question in questions %}
+            <div style="margin: 10px 0 20px 10px">
+                <div>{{ question.question }} = </div>
+                <div style="margin-left: 20px">
+                    {% for index, answer in question.answers %}
+                        <div>
+                            <input type="checkbox" name="testAnswers[{{ question.id }}][]" id="{{ answer.id }}" value="{{ answer.id }}">
+                            <label for="{{ answer.id }}">{{ answer.answer }}</label>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+        <button type="submit" name="testSubmitted" value="1">Save</button>
+    </form>
+{% endblock %}
