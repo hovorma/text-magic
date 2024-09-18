@@ -5,22 +5,24 @@
         <div style="color: red; margin-bottom: 10px">{{ errorMessage }}</div>
     {% elseif validationResults is not empty %}
         <div style="margin-bottom: 10px">
-            <div style="margin-bottom: 10px; padding: 10px; border: 1px solid black">
-                {% if validationResults.correctAnswers is defined and validationResults.correctAnswers is not empty %}
+            {% if validationResults.correctAnswers is defined and validationResults.correctAnswers is not empty %}
+                <div style="margin-bottom: 10px; padding: 10px; border: 1px solid black">
                     <div>Questions answered correctly</div>
                     {% for correctAnswer in validationResults.correctAnswers %}
                         <div>{{ correctAnswer }}</div>
                     {% endfor %}
-                {% endif %}
-            </div>
-            <div style="padding: 10px; border: 1px solid black">
-                {% if validationResults.wrongAnswers is defined and validationResults.wrongAnswers is not empty %}
+                </div>
+            {% endif %}
+
+            {% if validationResults.wrongAnswers is defined and validationResults.wrongAnswers is not empty %}
+                <div style="padding: 10px; border: 1px solid black">
                     <div>Questions answered wrongly</div>
                     {% for wrongAnswer in validationResults.wrongAnswers %}
                         <div>{{ wrongAnswer }}</div>
                     {% endfor %}
-                {% endif %}
-            </div>
+                </div>
+            {% endif %}
+
         </div>
     {% endif %}
     <form method="post">

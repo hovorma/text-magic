@@ -60,8 +60,13 @@ readonly class TestValidationService
                 if (!isset($questionsAnswers[$questionId . "_" . $answer])) {
                     throw new SystemException("Unknown answer with id $answer");
                 }
+
                 $testAnswer = new TestAnswer();
                 $testAnswer->setQuestion($questions[$questionId]);
+
+                $testAnswer->setAnswer($answersById[$answer]);
+
+                $this->em->persist($testAnswer);
 
                 if ($questionsAnswers[$questionId . "_" . $answer]) {
                     $answerIsCorrect = true;
@@ -69,10 +74,6 @@ readonly class TestValidationService
                     $answerIsCorrect = false;
                     break;
                 }
-
-                $testAnswer->setAnswer($answersById[$answer]);
-
-                $this->em->persist($testAnswer);
             }
 
             $validationResults[($answerIsCorrect) ? "correctAnswers" : "wrongAnswers"][] = $questions[$questionId]->getQuestion();
